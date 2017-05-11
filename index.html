@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>Tradutor Japonês</title>
+
+<!-- Bootstrap -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<style>
+textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="date"]:focus, input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="color"]:focus, .uneditable-    input:focus {
+    border-color: #CCC;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    outline: -webkit-focus-ring-color auto 0px;
+}
+</style>
+<body>
+	<div class="container">
+
+		<form class="form-signin">
+			<h2 class="form-signin-heading">Vocabulário</h2>
+
+			<div class="input-group">
+				<input type="text" id="search" class="form-control"
+					placeholder="vocábulo em japonês" required="" autofocus=""
+					autocomplete="off"> <span class="input-group-btn">
+					<button title="limpar" class="btn btn-default" type="reset"
+						onclick="$('#search').focus()">
+						<span class="glyphicon glyphicon-remove"></span>
+					</button>
+				</span>
+			</div>
+
+			<p></p>
+
+			<div id="results" class="well"></div>
+
+		</form>
+
+	</div>
+	<!-- /container -->
+
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/bootstrap-typeahead.js"></script>
+	<script>
+
+	$.ajaxSetup({
+		async: false
+		});
+	var lista = [];
+	
+	var dados = $.getJSON('data/vocabulario.json');
+	
+	lista =  $.parseJSON(dados.responseText);		
+	
+	$('#search').typeahead({
+		items: 300,
+		source: lista,
+		onSelect: exibir
+	});	
+	
+	function exibir() {	
+		$("#results").html(
+			$(".active").text() + "<br/><br/>"+
+			"<p><small>fonte: <a href='http://nihongobrasil.com.br/'>"+
+			"http://nihongobrasil.com.br/</a></small></p>");  	
+		}
+	</script>
+</body>
+</html>
